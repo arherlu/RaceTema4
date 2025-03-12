@@ -325,7 +325,13 @@ print(cran%>%
 `cran%>%...+geom_point()`
 
 ```{r}
-
+library(ggplot2)
+cran %>%
+  group_by(country) %>%  
+  summarise(total_traffic = sum(size, na.rm = TRUE)) %>%  
+  filter(total_traffic > quantile(total_traffic, probs = 0.90, na.rm = TRUE)) %>%  
+  arrange(desc(total_traffic)) %>%  
+  ggplot(aes(x = reorder(country, -total_traffic), y = total_traffic))+geom_point()
 
 
 
